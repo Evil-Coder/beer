@@ -14,11 +14,11 @@
 					<p class="element__tip">{{beer.brewers_tips}}</p>
 					<p class="element__description">{{beer.description}}</p>
 					<button class="element__button-edit"
-									@click.prevent="openEdit = !openEdit">Edit</button>
+									@click.prevent="needEdit(i + 1)">Edit</button>
 					<button class="element__button-delete"
 									@click.prevent="deleteElem(i)">Delete</button>
 				</div>
-				<div v-if="openEdit" class="element__edit">
+				<div v-if="openEdit === i + 1" class="element__edit">
 					<div class="element__edit-name" contenteditable="true"
 							 @input="edit($event, 'heading', i)">{{beer.name}}</div>
 					<div class="element__edit-description" contenteditable="true"
@@ -52,6 +52,11 @@ export default {
 		loadedState() {
 			if (this.loadedItems > this.beers.length) return
 			this.beers.length === this.loadedItems ? this.loaded = this.loadedItems++ : this.loaded = this.loadedItems++ && false
+		},
+		needEdit(i) {
+			console.log(i, 'index')
+			console.log(this.openEdit)
+			this.openEdit > 0 ? this.openEdit = false : this.openEdit = i
 		},
 		edit(ev, elem, id) {
 			const description = document.querySelectorAll(`.element__${elem}`)[id]
